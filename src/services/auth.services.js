@@ -2,9 +2,12 @@ const user = require('../models/User.modal');
 
 
 
-const  registerUser = async (email,name,password)=>{
+const  registerUser = async (Email,name,Password)=>{
     try{
-        const newUser = new user({email,name,password})
+        const newUser = new user({
+            email:Email,
+            Name:name,
+            password:Password})
         const saveUser = await newUser.save();
         return saveUser.id;
     }catch(err){
@@ -12,7 +15,21 @@ const  registerUser = async (email,name,password)=>{
     }
 }
 
-const loginUser = (email,password)=>{
+const loginUser = async (Email,Password)=>{
+    try{
+        const User = await user.findOne({email:Email});
+       if(!User){
+        return null;
+       }
+    if(User.password !== Password){
+        return null;
+    }
+
+    return User.id;
+        
+    }catch(err){
+        console.log(err);
+    }
 
 }
 
