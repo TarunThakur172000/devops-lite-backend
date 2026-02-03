@@ -2,7 +2,8 @@ const user = require('../models/User.modal');
 
 
 
-const  registerUser = async (Email,name,Password)=>{
+const  registerUser = async (data)=>{
+    const {Email,name,Password} = data;
     try{
         const newUser = new user({
             email:Email,
@@ -15,8 +16,9 @@ const  registerUser = async (Email,name,Password)=>{
     }
 }
 
+
 const loginUser = async (Email,Password)=>{
-    try{
+    try{    
         const User = await user.findOne({email:Email});
        if(!User){
         return null;

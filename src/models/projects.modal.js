@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const projectSchema = new Schema({
-    userId : {
+    UserId : {
         type:Schema.Types.ObjectId,
         ref:'User',
         required:'true'
     },
-    api_key: { type: String, required: true, unique: true },
-    created_at:{type:date}
+    ProjectName:{type:String,required: true},
+    created_at:{type:Date}
 })
 
 const projects = mongoose.model('projects',projectSchema);
