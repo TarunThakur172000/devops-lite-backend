@@ -26,10 +26,15 @@ const getproject = async (projectId) =>{
     }
 }
 
-const getProjcts = async () =>{
-    
+const getProjcts = async (userid) =>{  
+    try{
+        const allProjects = await project.find({UserId : new ObjectId(userid)});
+        return allProjects;
+    }catch(err){
+        console.log(err);
+    }
 }
 
 
 
-module.exports = {createProject,getproject};
+module.exports = {createProject,getproject,getProjcts};
