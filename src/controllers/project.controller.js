@@ -1,5 +1,5 @@
-const {createProject,getproject,getProjcts} = require('../services/project.service');
-
+const {createProject,getproject,getProjcts,deleteProjcts} = require('../services/project.service');
+const {updateApi} = require('../services/api.service');
 const create = async (req,res)=>{
     const data = req.body;
     const projectId = await createProject(data);
@@ -30,4 +30,23 @@ const getAll = async (req,res) =>{
     } 
 }
 
-module.exports={create,get,getAll};
+const updateAPI = async (req,res) =>{
+     const projectId = await updateApi(req.params['projectId']);
+    if(!projectId){
+        res.status(500).json({message:"Something Went wrong I am working on it"});
+    }else{
+        res.status(200).json({message:"Success",new_api : projectId});
+    } 
+}
+
+
+const deleteProject = async (req,res) =>{
+     const projectId = await deleteProjcts(req.params['projectId']);
+    if(!projectId){
+        res.status(500).json({message:"Something Went wrong I am working on it"});
+    }else{
+        res.status(200).json({message:"Project Deleted",projectid:{projectId}})
+    } 
+}
+
+module.exports={create,get,getAll,deleteProject,updateAPI};

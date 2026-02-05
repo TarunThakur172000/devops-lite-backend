@@ -1,5 +1,6 @@
 const user = require('../models/User.modal');
-
+const projects = require('../models/projects.modal');
+const Health = require('../models/Health.modal');
 
 
 const  registerUser = async (data)=>{
@@ -35,4 +36,16 @@ const loginUser = async (Email,Password)=>{
 
 }
 
-module.exports = {registerUser,loginUser};
+const deleteAccount = async (userId) =>{
+    try{
+        const deleteHealth = await Health.deleteMany({UserId : userId});
+        const deleteProjcts = await projects.deleteMany({UserId : userId});
+        const deleteUser = await user.findByIdAndDelete(userId); 
+        return `${deleteHealth.deletedCount} health records & ${deleteProjcts.deletedCount} projects deleted. Account ${deleteUser ? "deleted" : "not found"}.`;
+
+    }catch(err){
+        console.log(err);
+    }
+}
+
+module.exports = {registerUser,loginUser,deleteAccount};

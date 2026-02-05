@@ -8,6 +8,7 @@ const projectSchema = new Schema({
         required:'true'
     },
     ProjectName:{type:String,required: true},
+    api_key:{type:String},
     created_at:{type:Date}
 })
 

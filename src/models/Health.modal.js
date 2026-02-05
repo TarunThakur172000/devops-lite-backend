@@ -4,14 +4,14 @@ const {Schema} = mongoose;
 const healthSchema = new Schema({
     projectID : {
         type:Schema.Types.ObjectId,
-        ref:Projects,
+        ref:'Projects',
         required:true
     },
-    responseTime : {type:number},
-    api_end_point : {type:string},
-    api_status_code: {type:number},
-    api_error:{type:string},
-    method:{type:string},
+    responseTime : {type:Number},
+    api_end_point : {type:String},
+    api_status_code: {type:Number},
+    api_error:{type:String},
+    method:{type:String},
     created_at:{type:Date}
 })
 
