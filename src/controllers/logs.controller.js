@@ -3,7 +3,6 @@ const updateHealth = async (req, res) => {
     try {
         const data = req.body; 
         const projectId = req.projectid; 
-      
         const health = await updateHealthLog(data, projectId);
 
         if (!health) {

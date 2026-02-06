@@ -9,11 +9,12 @@ const register = async (req,res)=>{
 const login = async (req,res)=>{
     const cred = req.body;
   
-    const userId = await loginUser(cred.email,cred.pass);
-    if(!userId){
+    const token = await loginUser(cred.Email,cred.password);
+    if(!token){
         res.status(401).json({message:"Invalid Email or Password"});
     }else
-      res.status(200).json({message:"Login sucessfuly", id:{userId}})
+        res.cookie("token",token)
+      res.status(200).json({message:"Login sucessfuly"})
 }
 
 const deleteUser = async (req,res)=>{

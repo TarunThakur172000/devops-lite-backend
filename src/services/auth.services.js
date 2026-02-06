@@ -1,7 +1,7 @@
 const user = require('../models/User.modal');
 const projects = require('../models/projects.modal');
 const Health = require('../models/Health.modal');
-
+const {createJwtToken} = require('../utils/jwt');
 
 const  registerUser = async (data)=>{
     const {Email,name,Password} = data;
@@ -27,8 +27,9 @@ const loginUser = async (Email,Password)=>{
     if(User.password !== Password){
         return null;
     }
-
-    return User.id;
+    const token = createJwtToken(User.id);
+        
+    return token;
         
     }catch(err){
         console.log(err);
@@ -45,7 +46,7 @@ const deleteAccount = async (userId) => {
 
       
         for (const pro of userProjects) {
-            const deleteHealth = await Health.deleteMany({ projectId: pro._id });
+            const deleteHealth = await Health.deleteMany({projectID: pro._id });
             totalHealthDeleted += deleteHealth.deletedCount;
         }
 

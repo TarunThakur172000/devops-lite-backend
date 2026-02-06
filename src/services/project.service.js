@@ -9,7 +9,6 @@ const createProject = async (data) =>{
     const {userId, projectName} = data;
     try{
         const api = generate_Api(); 
-        console.log(api);
         const newProject =  new project({
                UserId:userId,
                ProjectName:projectName,
@@ -19,7 +18,7 @@ const createProject = async (data) =>{
         return Project.id;
     }catch(err){
       console.log(err);
-    }
+    }   
 
 } 
 
