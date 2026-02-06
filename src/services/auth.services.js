@@ -36,16 +36,31 @@ const loginUser = async (Email,Password)=>{
 
 }
 
-const deleteAccount = async (userId) =>{
-    try{
-        const deleteHealth = await Health.deleteMany({UserId : userId});
-        const deleteProjcts = await projects.deleteMany({UserId : userId});
-        const deleteUser = await user.findByIdAndDelete(userId); 
-        return `${deleteHealth.deletedCount} health records & ${deleteProjcts.deletedCount} projects deleted. Account ${deleteUser ? "deleted" : "not found"}.`;
+const deleteAccount = async (userId) => {
+    try {
+        
+        const userProjects = await projects.find({ UserId: userId });
 
-    }catch(err){
-        console.log(err);
+        let totalHealthDeleted = 0;
+
+      
+        for (const pro of userProjects) {
+            const deleteHealth = await Health.deleteMany({ projectId: pro._id });
+            totalHealthDeleted += deleteHealth.deletedCount;
+        }
+
+    
+        const deleteProjects = await projects.deleteMany({ UserId: userId });
+
+    
+        const deleteUser = await user.findByIdAndDelete(userId);
+
+        return `${totalHealthDeleted} health records & ${deleteProjects.deletedCount} projects deleted. Account ${deleteUser ? "deleted" : "not found"}.`;
+
+    } catch (err) {
+        console.error(err);
+        throw err;
     }
-}
+};
 
 module.exports = {registerUser,loginUser,deleteAccount};
