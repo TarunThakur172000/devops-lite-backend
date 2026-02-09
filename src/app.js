@@ -8,7 +8,8 @@ const cors = require('cors');
 app.use(cors({
   origin: '*',
   methods: '*',
-  allowedHeaders: '*'
+  allowedHeaders: '*',
+  credentials: true
 }));
 app.use(express.json()); 
 
