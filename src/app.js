@@ -5,7 +5,11 @@ const express = require('express');
 const { verifyToken } = require('./middleware/verifyToken');
 const app = express();
 const cors = require('cors');
-app.use=(cors())
+app.use(cors({
+  origin: '*',
+  methods: '*',
+  allowedHeaders: '*'
+}));
 app.use(express.json()); 
 
 app.use('/auth',authRoute);
