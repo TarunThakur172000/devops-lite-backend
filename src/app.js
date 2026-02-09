@@ -6,7 +6,7 @@ const { verifyToken } = require('./middleware/verifyToken');
 const app = express();
 const cors = require('cors');
 app.use(cors({
-  origin: 'http://localhost:5173/',
+  origin: 'http://localhost:5173',
   methods: '*',
   allowedHeaders: '*',
   credentials: true
