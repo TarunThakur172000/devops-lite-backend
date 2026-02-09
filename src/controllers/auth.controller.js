@@ -13,7 +13,12 @@ const login = async (req,res)=>{
     if(!token){
         res.status(401).json({message:"Invalid Email or Password"});
     }else
-        res.cookie("token",token)
+        
+  res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "none",
+    secure: false
+  });
       res.status(200).json({message:"Login sucessfuly"})
 }
 
