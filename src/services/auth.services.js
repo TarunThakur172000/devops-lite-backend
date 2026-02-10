@@ -59,8 +59,7 @@ const deleteAccount = async (userId) => {
         return `${totalHealthDeleted} health records & ${deleteProjects.deletedCount} projects deleted. Account ${deleteUser ? "deleted" : "not found"}.`;
 
     } catch (err) {
-        console.error(err);
-        throw err;
+        return false;
     }
 };
 

@@ -1,12 +1,15 @@
 const {createProject,getproject,getProjcts,deleteProjcts} = require('../services/project.service');
 const {updateApi} = require('../services/api.service');
+
+
+
 const create = async (req,res)=>{
     const data = req.body;
     const projectId = await createProject(data);
     if(!projectId){
-        res.status(500).json({message:"Something Went wrong I am working on it"});
+        res.status(400).json({message:"Bad request"});
     }else{
-        res.status(200).json({message:"Project Created",projectid:{projectId}})
+        res.status(201).json({message:"Project created successfully",projectid:{projectId}})
     } 
 }
 
@@ -14,7 +17,7 @@ const create = async (req,res)=>{
 const get = async (req,res) =>{
      const projectId = await getproject(req.params['projectId']);
     if(!projectId){
-        res.status(500).json({message:"Something Went wrong I am working on it"});
+        res.status(404).json({message:"No Project Found"});
     }else{
         res.status(200).json({message:"Success",projectid:{projectId}})
     } 
@@ -23,7 +26,7 @@ const get = async (req,res) =>{
 const getAll = async (req,res) =>{
     const allProjects = await getProjcts(req.params['UserId']);
     if(!allProjects.length){
-        res.status(500).json({message:"No Project Found"});
+        res.status(404).json({message:"No Project Found"});
     }else{
         res.status(200).json({message:"Success",projects:{allProjects}})
     } 
@@ -32,7 +35,7 @@ const getAll = async (req,res) =>{
 const updateAPI = async (req,res) =>{
      const projectId = await updateApi(req.params['projectId']);
     if(!projectId){
-        res.status(500).json({message:"Something Went wrong I am working on it"});
+        res.status(404).json({message:"Project not found"});
     }else{
         res.status(200).json({message:"Success",new_api : projectId});
     } 
@@ -42,7 +45,7 @@ const updateAPI = async (req,res) =>{
 const deleteProject = async (req,res) =>{
      const projectId = await deleteProjcts(req.params['projectId']);
     if(!projectId){
-        res.status(500).json({message:"Something Went wrong I am working on it"});
+        res.status(404).json({message:"Project not found"});
     }else{
         res.status(200).json({message:"Project Deleted",projectid:{projectId}})
     } 

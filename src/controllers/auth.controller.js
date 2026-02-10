@@ -2,24 +2,29 @@ const {registerUser,loginUser,deleteAccount} = require('../services/auth.service
 
 const register = async (req,res)=>{
     const data = req.body;
+    try{
     const userId = await registerUser(data);
-    res.status(200).json({message:"User Created", id:{userId}})
+    res.status(200).json({message:"User registered successfully", id:{userId}})
+    }catch(err){
+    res.status(400).json({message:"Bad request"})
+    }
 }
+
 
 const login = async (req,res)=>{
     const cred = req.body;
   
-    const token = await loginUser(cred.Email,cred.password);
+    const jwtToken = await loginUser(cred.email,cred.password);
     if(!token){
         res.status(401).json({message:"Invalid Email or Password"});
     }else
         
-  res.cookie("token", token, {
+  res.cookie("token", jwtToken, {
     httpOnly: true,
     sameSite: "none",
     secure: false
   });
-      res.status(200).json({message:"Login sucessfuly"})
+      res.status(200).json({message:"Login successful",token: jwtToken})
 }
 
 const deleteUser = async (req,res)=>{
@@ -27,9 +32,9 @@ const deleteUser = async (req,res)=>{
   
     const message = await deleteAccount(ID);
     if(!message){
-        res.status(401).json({message:"Invalid Email or Password"});
+        res.status(404).json({message:"User not found"});
     }else
-      res.status(200).json({message:{message}});
+      res.status(200).json({message:"User deleted successfully"});
 }
     
 module.exports = {register,login,deleteUser};

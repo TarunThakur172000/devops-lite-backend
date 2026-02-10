@@ -9,7 +9,7 @@ const updateHealth = async (req, res) => {
             return res.status(404).json({ message: 'Health record not found' });
         }
 
-        res.status(200).json({ message: 'Updated', health });
+        res.status(200).json({ message: 'Health logs updated successfully', health });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error' });

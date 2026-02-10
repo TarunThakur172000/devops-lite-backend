@@ -10,7 +10,7 @@ const verifyToken = (req,res,next) =>{
     const token = authHeader.split(" ")[1];
 
     if(!token){
-        res.status(401).json({message:"Token Missing"})
+        res.status(401).json({message:"Unauthorized"})
     }
 
     try{
