@@ -11,7 +11,7 @@ const healthSchema = new Schema({
     api_status_code: {type:Number},
     api_error:{type:String},
     method:{type:String},
-    created_at:{type:Date}
+    last_update_at:{type:Date,default:Date.now}
 })
 
 const Health = mongoose.model('Health',healthSchema);

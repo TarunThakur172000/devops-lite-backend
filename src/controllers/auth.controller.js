@@ -15,7 +15,7 @@ const login = async (req,res)=>{
     const cred = req.body;
   
     const jwtToken = await loginUser(cred.email,cred.password);
-    if(!token){
+    if(!jwtToken){
         res.status(401).json({message:"Invalid Email or Password"});
     }else
         
@@ -38,3 +38,4 @@ const deleteUser = async (req,res)=>{
 }
     
 module.exports = {register,login,deleteUser};
+

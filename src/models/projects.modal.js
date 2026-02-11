@@ -9,7 +9,7 @@ const projectSchema = new Schema({
     },
     ProjectName:{type:String,required: true},
     api_key:{type:String},
-    created_at:{type:Date}
+    created_at:{type:Date,default:Date.now}
 })
 
 const projects = mongoose.model('projects',projectSchema);
