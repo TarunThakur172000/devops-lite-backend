@@ -1,5 +1,5 @@
 const { updateHealth } = require('../controllers/logs.controller');
-const { verif_Api_key } = require('../middleware/verifyApiKey');
+
 const express = require('express');
 const router = express.Router();
 
@@ -37,6 +37,6 @@ const router = express.Router();
  *       400:
  *         description: Bad request
  */
-router.post('/health', verif_Api_key, updateHealth);
+router.post('/health', updateHealth);
 
 module.exports = router;

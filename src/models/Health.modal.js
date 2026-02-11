@@ -1,19 +1,53 @@
 const mongoose = require('mongoose');
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
 const healthSchema = new Schema({
-    projectID : {
-        type:Schema.Types.ObjectId,
-        ref:'projects',
-    }, 
-    responsetime : {type:Number},
-    api_end_point : {type:String},
-    api_status_code: {type:Number},
-    api_error:{type:String},
-    method:{type:String},
-    last_update_at:{type:Date,default:Date.now}
-})
+  projectId: {
+    type: Schema.Types.ObjectId,
+    ref: 'projects',
+    required: true
+  },
 
-const Health = mongoose.model('Health',healthSchema);
+  timestamp: {
+    type: Date,
+    required: true
+  },
+
+  responseTimeMs: {
+    type: Number,
+    default: 0
+  },
+
+  endpoint: {
+    type: String
+  },
+
+  statusCode: {
+    type: Number
+  },
+
+  errorMessage: {
+    type: String
+  },
+
+  method: {
+    type: String
+  },
+
+  success: {
+    type: Boolean
+  },
+
+  ip: {
+    type: String
+  },
+
+  userAgent: {
+    type: String
+  }
+
+}, { timestamps: true });
+
+const Health = mongoose.model('Health', healthSchema);
 
 module.exports = Health;

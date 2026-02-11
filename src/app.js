@@ -1,9 +1,11 @@
 const authRoute = require('./routes/auth.routes');
 const projectRoute =  require('./routes/project.routes');
-const logsRoute =  require('./routes/logs.routes');
+const logsRoute =  require('./routes/logs.routes'); 
 const metricsRoute =  require('./routes/metrics.routes');
 const express = require('express');
 const { verifyToken } = require('./middleware/verifyToken');
+const { verif_Api_key } = require('./middleware/verifyApiKey');
+
 const app = express();
 const cors = require('cors');
 const swaggerUi = require("swagger-ui-express");
@@ -23,9 +25,9 @@ app.use('/auth',authRoute);
 
 app.use('/project',verifyToken,projectRoute);
 
-app.use('/logs',logsRoute);
+app.use('/logs',verif_Api_key,logsRoute);
 
-app.use('/getHealthLogs',metricsRoute);
+app.use('/getHealthLogs',verifyToken,metricsRoute);
 
 
 module.exports = app;
