@@ -67,38 +67,10 @@ router.post('/:projectId', updateAPI);
 
 /**
  * @swagger
- * /project/{projectId}:
- *   get:
- *     summary: Get details of a single project
- *     tags: [Project]
- *     parameters:
- *       - in: path
- *         name: projectId
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the project
- *     responses:
- *       200:
- *         description: Project details retrieved
- *       404:
- *         description: Project not found
- */
-router.get('/:projectId', get);
-
-/**
- * @swagger
- * /project/getProjects/{UserId}:
+ * /project/getProjects:
  *   get:
  *     summary: Get all projects for a user
  *     tags: [Project]
- *     parameters:
- *       - in: path
- *         name: UserId
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the user
  *     responses:
  *       200:
  *         description: List of user's projects
@@ -118,7 +90,30 @@ router.get('/:projectId', get);
  *       404:
  *         description: No projects found for user
  */
-router.get('/getProjects/:UserId', getAll);
+router.get('/getProjects', getAll);
+
+
+
+/**
+ * @swagger
+ * /project/{projectId}:
+ *   get:
+ *     summary: Get details of a single project
+ *     tags: [Project]
+ *     parameters:
+ *       - in: path
+ *         name: projectId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID of the project
+ *     responses:
+ *       200:
+ *         description: Project details retrieved
+ *       404:
+ *         description: Project not found
+ */
+router.get('/:projectId', get);
 
 /**
  * @swagger

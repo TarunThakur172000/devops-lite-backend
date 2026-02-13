@@ -12,7 +12,7 @@ const updateApi = async (projectId) => {
     // Update the project
     const updatedProject = await projects.findByIdAndUpdate(
       projectId,          // the ID of the project
-      { api_key: api },   // update object
+      { apiKey: api },   // update object
       { new: true }       // return the updated document
     );
 

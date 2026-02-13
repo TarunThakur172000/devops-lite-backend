@@ -1,4 +1,4 @@
-const { register, login, deleteUser } = require('../controllers/auth.controller');
+const { register, login, deleteUser,authme } = require('../controllers/auth.controller');
 const express = require('express');
 const { verifyToken } = require('../middleware/verifyToken');
 const router = express.Router();
@@ -92,6 +92,8 @@ router.post('/login', login);
  *       404:
  *         description: User not found
  */
-router.delete('/:userId', verifyToken, deleteUser);
+router.delete('/', verifyToken, deleteUser);
+
+router.get('/me',verifyToken,authme);
 
 module.exports = router;

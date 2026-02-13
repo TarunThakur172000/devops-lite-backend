@@ -4,15 +4,15 @@ const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types;
 
 
-const createProject = async (data) =>{
+const createProject = async (data,userId) =>{
     
-    const {userId, projectName} = data;
+    const {projectName} = data;
     try{
         const api = generate_Api(); 
         const newProject =  new project({
-               UserId:userId,
-               ProjectName:projectName,
-                api_key:api,
+               userId,
+             projectName,
+                apiKey:api,
               });
         const Project = await newProject.save();
         return Project.id;
@@ -31,9 +31,9 @@ const getproject = async (projectId) =>{
     }
 }
 
-const getProjcts = async (userid) =>{  
+const getProjcts = async (Userid) =>{  
     try{
-        const allProjects = await project.find({UserId : new ObjectId(userid)});
+        const allProjects = await project.find({userId : new ObjectId(Userid)});
         return allProjects;
     }catch(err){
         console.log(err);

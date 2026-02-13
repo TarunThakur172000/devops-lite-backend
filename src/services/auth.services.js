@@ -4,12 +4,13 @@ const Health = require('../models/Health.modal');
 const {createJwtToken} = require('../utils/jwt');
 
 const  registerUser = async (data)=>{
-    const {Email,name,Password} = data;
+    const {name,email,password} = data;
+    console.log(email);
     try{
         const newUser = new user({
-            email:Email,
+            Email:email,
             Name:name,
-            password:Password})
+            Password:password})
         const saveUser = await newUser.save();
         return saveUser.id;
     }catch(err){
@@ -18,13 +19,13 @@ const  registerUser = async (data)=>{
 }
 
 
-const loginUser = async (Email,Password)=>{
+const loginUser = async (email,password)=>{
     try{    
-        const User = await user.findOne({email:Email});
+        const User = await user.findOne({Email:email});
        if(!User){
         return null;
        }
-    if(User.password !== Password){
+    if(User.Password !== password){
         return null;
     }
     const token = createJwtToken(User.id);
@@ -36,6 +37,7 @@ const loginUser = async (Email,Password)=>{
     }
 
 }
+
 
 const deleteAccount = async (userId) => {
     try {

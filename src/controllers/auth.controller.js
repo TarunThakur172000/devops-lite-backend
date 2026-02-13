@@ -2,6 +2,7 @@ const {registerUser,loginUser,deleteAccount} = require('../services/auth.service
 
 const register = async (req,res)=>{
     const data = req.body;
+    console.log(data);
     try{
     const userId = await registerUser(data);
     res.status(200).json({message:"User registered successfully", id:{userId}})
@@ -19,16 +20,11 @@ const login = async (req,res)=>{
         res.status(401).json({message:"Invalid Email or Password"});
     }else
         
-  res.cookie("token", jwtToken, {
-    httpOnly: true,
-    sameSite: "none",
-    secure: false
-  });
       res.status(200).json({message:"Login successful",token: jwtToken})
 }
 
 const deleteUser = async (req,res)=>{
-    const ID = req.params['userId'];
+    const ID = req.userId;
   
     const message = await deleteAccount(ID);
     if(!message){
@@ -36,6 +32,8 @@ const deleteUser = async (req,res)=>{
     }else
       res.status(200).json({message:"User deleted successfully"});
 }
-    
-module.exports = {register,login,deleteUser};
+    const authme = (req,res) =>{
+        res.status(200).json({message:"Authorized"});
+    }
+module.exports = {register,login,deleteUser,authme};
 

@@ -5,7 +5,7 @@ const {updateApi} = require('../services/api.service');
 
 const create = async (req,res)=>{
     const data = req.body;
-    const projectId = await createProject(data);
+    const projectId = await createProject(data,req.userId);
     if(!projectId){
         res.status(400).json({message:"Bad request"});
     }else{
@@ -24,7 +24,10 @@ const get = async (req,res) =>{
 }
 
 const getAll = async (req,res) =>{
-    const allProjects = await getProjcts(req.params['UserId']);
+
+    const UserId = req.userId;
+    console.log(UserId);
+    const allProjects = await getProjcts(UserId);
     if(!allProjects.length){
         res.status(404).json({message:"No Project Found"});
     }else{
@@ -37,7 +40,7 @@ const updateAPI = async (req,res) =>{
     if(!projectId){
         res.status(404).json({message:"Project not found"});
     }else{
-        res.status(200).json({message:"Success",new_api : projectId});
+        res.status(200).json({message:"API Updated",new_api : projectId});
     } 
 }
 
