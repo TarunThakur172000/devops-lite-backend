@@ -1,57 +1,74 @@
-const {createProject,getproject,getProjcts,deleteProjcts} = require('../services/project.service');
-const {updateApi} = require('../services/api.service');
+const { createProject, getProject, getProjects, deleteProject: deleteProjectService } = require('../services/project.service');
+const { updateApi } = require('../services/api.service');
 
+const create = async (req, res, next) => {
+    try {
+        const projectId = await createProject(req.body, req.userId);
+        if (!projectId) {
+            const error = new Error("Project could not be created");
+            error.statusCode = 400;
+            throw error;
+        }
+        res.status(201).json({ status: "success", projectId });
+    } catch (err) {
+        next(err);
+    }
+};
 
+const get = async (req, res, next) => {
+    try {
+        const project = await getProject(req.params.projectId);
+        if (!project) {
+            const error = new Error("Project not found");
+            error.statusCode = 404;
+            throw error;
+        }
+        res.status(200).json({ status: "success", project });
+    } catch (err) {
+        next(err);
+    }
+};
 
-const create = async (req,res)=>{
-    const data = req.body;
-    const projectId = await createProject(data,req.userId);
-    if(!projectId){
-        res.status(400).json({message:"Bad request"});
-    }else{
-        res.status(201).json({message:"Project created successfully",projectid:{projectId}})
-    } 
-}
+const getAll = async (req, res, next) => {
+    try {
+        const projects = await getProjects(req.userId);
+        if (!projects.length) {
+            const error = new Error("No projects found");
+            error.statusCode = 404;
+            throw error;
+        }
+        res.status(200).json({ status: "success", projects });
+    } catch (err) {
+        next(err);
+    }
+};
 
+const updateAPI = async (req, res, next) => {
+    try {
+        const newApi = await updateApi(req.params.projectId);
+        if (!newApi) {
+            const error = new Error("Project not found");
+            error.statusCode = 404;
+            throw error;
+        }
+        res.status(200).json({ status: "success", newApi });
+    } catch (err) {
+        next(err);
+    }
+};
 
-const get = async (req,res) =>{
-     const projectId = await getproject(req.params['projectId']);
-    if(!projectId){
-        res.status(404).json({message:"No Project Found"});
-    }else{
-        res.status(200).json({message:"Success",projectid:{projectId}})
-    } 
-}
+const deleteProject = async (req, res, next) => {
+    try {
+        const deletedProject = await deleteProjectService(req.params.projectId);
+        if (!deletedProject) {
+            const error = new Error("Project not found");
+            error.statusCode = 404;
+            throw error;
+        }
+        res.status(200).json({ status: "success", deletedProject });
+    } catch (err) {
+        next(err);
+    }
+};
 
-const getAll = async (req,res) =>{
-
-    const UserId = req.userId;
-    console.log(UserId);
-    const allProjects = await getProjcts(UserId);
-    if(!allProjects.length){
-        res.status(404).json({message:"No Project Found"});
-    }else{
-        res.status(200).json({message:"Success",projects:{allProjects}})
-    } 
-}
-
-const updateAPI = async (req,res) =>{
-     const projectId = await updateApi(req.params['projectId']);
-    if(!projectId){
-        res.status(404).json({message:"Project not found"});
-    }else{
-        res.status(200).json({message:"API Updated",new_api : projectId});
-    } 
-}
-
-
-const deleteProject = async (req,res) =>{
-     const projectId = await deleteProjcts(req.params['projectId']);
-    if(!projectId){
-        res.status(404).json({message:"Project not found"});
-    }else{
-        res.status(200).json({message:"Project Deleted",projectid:{projectId}})
-    } 
-}
-
-module.exports={create,get,getAll,deleteProject,updateAPI};
+module.exports = { create, get, getAll, deleteProject, updateAPI };

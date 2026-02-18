@@ -1,39 +1,82 @@
-const {registerUser,loginUser,deleteAccount} = require('../services/auth.services');
+const {
+  registerUser,
+  loginUser,
+  deleteAccount,
+  changePassword,
+  recoverPassword
+} = require('../services/auth.services');
 
-const register = async (req,res)=>{
-    const data = req.body;
-    console.log(data);
-    try{
-    const userId = await registerUser(data);
-    res.status(200).json({message:"User registered successfully", id:{userId}})
-    }catch(err){
-    res.status(400).json({message:"Bad request"})
-    }
-}
+const register = async (req, res, next) => {
+  try {
+    const userData = await registerUser(req.body);
+    res.status(201).json({
+      status: "success",
+      message: "User registered successfully",
+      data: userData
+    });
+  } catch (err) {
+    next(err); // Pass to global error handler
+  }
+};
 
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const jwtToken = await loginUser(email, password);
 
-const login = async (req,res)=>{
-    const cred = req.body;
-  
-    const jwtToken = await loginUser(cred.email,cred.password);
-    if(!jwtToken){
-        res.status(401).json({message:"Invalid Email or Password"});
-    }else
-        
-      res.status(200).json({message:"Login successful",token: jwtToken})
-}
+    res.status(200).json({
+      status: "success",
+      message: "Login successful",
+      token: jwtToken
+    });
+  } catch (err) {
+    next(err); // Could be invalid credentials → handled by service
+  }
+};
 
-const deleteUser = async (req,res)=>{
-    const ID = req.userId;
-  
-    const message = await deleteAccount(ID);
-    if(!message){
-        res.status(404).json({message:"User not found"});
-    }else
-      res.status(200).json({message:"User deleted successfully"});
-}
-    const authme = (req,res) =>{
-        res.status(200).json({message:"Authorized"});
-    }
-module.exports = {register,login,deleteUser,authme};
+const deleteUser = async (req, res, next) => {
+  try {
+    const result = await deleteAccount(req.userId);
+    res.status(200).json({
+      status: "success",
+      message: "User deleted successfully"
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 
+const authme = (req, res) => {
+  res.status(200).json({ status: "success", message: "Authorized" });
+};
+
+const passwordChange = async (req, res, next) => {
+  try {
+    await changePassword(req.userId, req.body);
+    res.status(200).json({ status: "success", message: "Password changed successfully" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const passwordRecovery = async (req, res, next) => {
+  try {
+    const updatedData = await recoverPassword(req.body);
+    res.status(200).json({
+      status: "success",
+      message: "Password changed successfully",
+      data: updatedData
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = {
+  register,
+  login,
+  deleteUser,
+  authme,
+  passwordChange,
+  passwordRecovery
+};

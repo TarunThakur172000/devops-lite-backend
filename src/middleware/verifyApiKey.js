@@ -8,6 +8,7 @@ apiKey});
  if (!project) return res.status(403).json({ success: false, message: 'Invalid API key' });
 
   req.projectid = project.id;
+  req.userId = project.userId;
     next();
 }
 

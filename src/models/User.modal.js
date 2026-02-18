@@ -2,22 +2,39 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
-  Email: {
+  email: {
     type: String,
     required: true,
     unique: true,
     lowercase: true, 
     trim: true       
   },
-  Name: {
+  name: {
     type: String,
     trim: true
   },
-  Password: {
+  password: {
     type: String,
     required: true
   },
-},{ timestamps: true }
+  plan: {
+  type: String,
+  enum: ["Free", "Pro", "Enterprise"],
+  default: "Free"
+},
+monthlyRequestLimit : {
+  type: Number,
+  default: 10000
+},
+
+subscriptionStatus: {
+  type: String,
+  enum: ["active", "canceled", "past_due"],
+  default: "active"
+},
+recoveryKey: { type: String },        
+},
+{ timestamps: true }
 );
 
 

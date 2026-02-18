@@ -1,3 +1,4 @@
+const Dashboard = require('../models/Dashboard.modal');
 const project = require('../models/projects.modal');
 const {generate_Api} = require('./api.service');
 const mongoose = require("mongoose");
@@ -15,6 +16,18 @@ const createProject = async (data,userId) =>{
                 apiKey:api,
               });
         const Project = await newProject.save();
+
+          const dashboardUpdate = Dashboard.updateOne(
+              { userId },
+              {
+                $inc: {
+                  totalProjects:1,  
+                }
+              }
+            );
+
+         await Promise.all([dashboardUpdate]);
+
         return Project.id;
     }catch(err){
       console.log(err);

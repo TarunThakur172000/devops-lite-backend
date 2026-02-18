@@ -7,7 +7,7 @@ const gethealthmetrics = async (req, res) =>{
    const metrics =  await getProjectMetrics(req.params.projectId);
    res.status(200).json({message:"Metrics retrieved successfully",healthMetrics:metrics});
    }catch(err){
-         res.status(500).json({message:"Server error"});
+         next(err);
    }
 }
 
@@ -18,7 +18,7 @@ const gethealthlogs = async (req, res) =>{
    const logs =  await getHealthLogs(req.params.projectId,page,limit);
    res.status(200).json({message:"Health logs retrieved successfully",healthLogs:logs});
       } catch(err){
-         res.status(500).json({message:"Server error"});
+         next(err);
       }
 }
 

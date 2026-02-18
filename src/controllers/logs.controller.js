@@ -1,20 +1,28 @@
-const {updateHealthLog} = require('../services/logs.service');
-const updateHealth = async (req, res) => {
-    try {
-        const data = req.body; 
-        const projectId = req.projectid; 
-        const health = await updateHealthLog(data, projectId);
+const { updateHealthLog } = require('../services/logs.service');
 
-        if (!health) {
-            return res.status(404).json({ message: 'Health record not found' });
-        }
+const updateHealth = async (req, res, next) => {
+  try {
+    const data = req.body;
+    const projectId = req.projectid; 
+    const userId = req.userId;
 
-        res.status(200).json({ message: 'Health logs updated successfully', health });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
+    if (!projectId || !userId) {
+      const error = new Error('Project ID or User ID missing');
+      error.statusCode = 400;
+      throw error;
     }
+
+    const healthId = await updateHealthLog(data, projectId, userId);
+
+    res.status(200).json({
+      status: 'success',
+      healthId
+    });
+
+  } catch (err) {
+    
+    next(err);
+  }
 };
 
-
-module.exports = {updateHealth};
+module.exports = { updateHealth };

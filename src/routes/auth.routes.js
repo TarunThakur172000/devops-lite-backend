@@ -1,4 +1,4 @@
-const { register, login, deleteUser,authme } = require('../controllers/auth.controller');
+const { register, login, deleteUser,authme, passwordChange, passwordRecovery } = require('../controllers/auth.controller');
 const express = require('express');
 const { verifyToken } = require('../middleware/verifyToken');
 const router = express.Router();
@@ -95,5 +95,9 @@ router.post('/login', login);
 router.delete('/', verifyToken, deleteUser);
 
 router.get('/me',verifyToken,authme);
+
+router.post('/changePassword',verifyToken,passwordChange);
+
+router.post('/recover_password',passwordRecovery);
 
 module.exports = router;
