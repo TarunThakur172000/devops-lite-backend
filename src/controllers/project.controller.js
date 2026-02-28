@@ -1,5 +1,36 @@
-const { createProject, getProject, getProjects, deleteProject: deleteProjectService } = require('../services/project.service');
-const { updateApi } = require('../services/api.service');
+const { updateApi, RevokeApi } = require('../services/api.service');
+const { createProject, getProject, getProjects, deleteProjects } = require('../services/project.service');
+
+
+
+const updateAPI = async (req, res, next) => {
+    try {
+      
+        const newApi = await updateApi(req.params.projectId);
+        if (!newApi) {
+            const error = new Error("Project not found");
+            error.statusCode = 404;
+            throw error;
+        }
+        res.status(200).json({ status: "success", newApi });
+    } catch (err) {
+        next(err);
+    }
+};
+
+const revokeAPI =  async (req,res,next) =>{
+    try{
+        const revoke = await RevokeApi(req.params.projectId);
+         if (!revoke) {
+            const error = new Error("Project not found");
+            error.statusCode = 404;
+            throw error;
+        }
+        res.status(200).json({ status: "success" });
+    }catch(err){
+        next(err);
+    }
+}
 
 const create = async (req, res, next) => {
     try {
@@ -43,23 +74,11 @@ const getAll = async (req, res, next) => {
     }
 };
 
-const updateAPI = async (req, res, next) => {
-    try {
-        const newApi = await updateApi(req.params.projectId);
-        if (!newApi) {
-            const error = new Error("Project not found");
-            error.statusCode = 404;
-            throw error;
-        }
-        res.status(200).json({ status: "success", newApi });
-    } catch (err) {
-        next(err);
-    }
-};
+
 
 const deleteProject = async (req, res, next) => {
     try {
-        const deletedProject = await deleteProjectService(req.params.projectId);
+        const deletedProject = await deleteProjects(req.params.projectId);
         if (!deletedProject) {
             const error = new Error("Project not found");
             error.statusCode = 404;
@@ -71,4 +90,4 @@ const deleteProject = async (req, res, next) => {
     }
 };
 
-module.exports = { create, get, getAll, deleteProject, updateAPI };
+module.exports = { create, get, getAll, deleteProject,updateAPI,revokeAPI };

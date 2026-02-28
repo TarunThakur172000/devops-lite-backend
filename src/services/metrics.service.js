@@ -69,7 +69,7 @@ const getHealthLogs = async (projectId, page, limit) => {
       .lean();
 
     const total = await Health.countDocuments({ projectId });
-
+    
     return {
       total,
       page,

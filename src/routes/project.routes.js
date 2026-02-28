@@ -1,4 +1,5 @@
-const { create, get, getAll, deleteProject, updateAPI } = require('../controllers/project.controller');
+const { create, get, getAll, deleteProject } = require('../controllers/project.controller');
+const {updateAPI,revokeAPI} = require('../controllers/project.controller');
 const express = require('express');
 const router = express.Router();
 
@@ -31,39 +32,7 @@ const router = express.Router();
  */
 router.post('/', create);
 
-/**
- * @swagger
- * /project/{projectId}:
- *   post:
- *     summary: Update project API details
- *     tags: [Project]
- *     parameters:
- *       - in: path
- *         name: projectId
- *         schema:
- *           type: string
- *         required: true
- *         description: ID of the project
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               apiKey:
- *                 type: string
- *                 description: New API key or config
- *               apiUrl:
- *                 type: string
- *                 description: New API endpoint URL
- *     responses:
- *       200:
- *         description: Project API updated successfully
- *       404:
- *         description: Project not found
- */
-router.post('/:projectId', updateAPI);
+
 
 /**
  * @swagger
@@ -135,5 +104,10 @@ router.get('/:projectId', get);
  *         description: Project not found
  */
 router.delete('/:projectId', deleteProject);
+
+
+router.post('/:projectId/generate-key', updateAPI);
+
+router.post('/:projectId/revoke-key', revokeAPI);
 
 module.exports = router;

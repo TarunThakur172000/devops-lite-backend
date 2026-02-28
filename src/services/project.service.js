@@ -38,13 +38,14 @@ const createProject = async (data,userId) =>{
 const getproject = async (projectId) =>{
     try{
         const projectDetail = await project.findById(projectId);
+        
         return projectDetail;
     }catch(err){
         console.log(err);
     }
 }
 
-const getProjcts = async (Userid) =>{  
+const getProjects = async (Userid) =>{  
     try{
         const allProjects = await project.find({userId : new ObjectId(Userid)});
         return allProjects;
@@ -53,14 +54,14 @@ const getProjcts = async (Userid) =>{
     }
 }
 
-const deleteProjcts = async (projectId) =>{  
+const deleteProjects = async (projectId) =>{  
     try{
-        const allProjects = await project.findByIdAndDelete(projectId);
-        return allProjects;
+        const Project = await project.findByIdAndDelete(projectId);
+        return Project;
     }catch(err){
         console.log(err);
     }
 }
 
 
-module.exports = {createProject,getproject,getProjcts,deleteProjcts};
+module.exports = {createProject,getproject,getProjects,deleteProjects};

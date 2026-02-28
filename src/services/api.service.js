@@ -23,4 +23,21 @@ const updateApi = async (projectId) => {
   }
 };
 
-module.exports = { generate_Api, updateApi };
+const RevokeApi = async (projectId) => {
+  try {
+
+    // Update the project
+    const updatedProject = await projects.findByIdAndUpdate(
+      projectId,          // the ID of the project
+      { apiKey: null },   // revoke
+      { new: true }       // return the updated document
+    );
+
+    return updatedProject;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+module.exports = { generate_Api, updateApi, RevokeApi };

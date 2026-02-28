@@ -23,12 +23,18 @@ const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const jwtToken = await loginUser(email, password);
-
-    res.status(200).json({
-      status: "success",
-      message: "Login successful",
-      token: jwtToken
-    });
+   if (jwtToken) {
+  return res.status(200).json({
+    status: "success",
+    message: "Login successful",
+    token: jwtToken
+  });
+} else {
+  return res.status(401).json({
+    status: "error",
+    message: "Invalid credentials"
+  });
+}
   } catch (err) {
     next(err); // Could be invalid credentials → handled by service
   }
@@ -80,3 +86,4 @@ module.exports = {
   passwordChange,
   passwordRecovery
 };
+ 

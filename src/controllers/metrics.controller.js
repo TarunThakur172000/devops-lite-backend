@@ -2,7 +2,7 @@ const {getProjectMetrics,getHealthLogs} = require('../services/metrics.service')
  
 
 
-const gethealthmetrics = async (req, res) =>{
+const gethealthmetrics = async (req, res,next) =>{
    try{
    const metrics =  await getProjectMetrics(req.params.projectId);
    res.status(200).json({message:"Metrics retrieved successfully",healthMetrics:metrics});
@@ -12,7 +12,7 @@ const gethealthmetrics = async (req, res) =>{
 }
 
 
-const gethealthlogs = async (req, res) =>{
+const gethealthlogs = async (req, res,next) =>{
    const {page = 1, limit = 50} = req.query;
    try{
    const logs =  await getHealthLogs(req.params.projectId,page,limit);
