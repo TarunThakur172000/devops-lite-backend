@@ -12,7 +12,7 @@ const app = express();
 const cors = require('cors');
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger");
-import apiHealth from "api-health-middleware";
+const apiHealth = require("api-health-middleware");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(cors({
