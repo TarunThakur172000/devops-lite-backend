@@ -24,7 +24,7 @@ app.use(cors({
 
 app.use(
  apiHealth({
-    apiKey: "61cfa99c0d184e3868f3e678dfda2370ddb936a7bebdd31d4bc03f7952eab4d6" 
+    apiKey: `${process.env.API_MONITORING_KEY}` 
   })
 );
 
