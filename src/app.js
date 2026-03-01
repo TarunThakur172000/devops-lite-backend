@@ -12,18 +12,20 @@ const app = express();
 const cors = require('cors');
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger");
-const healthMonitor = require('api-health-middleware');
+import apiHealth from "api-health-middleware";
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(cors({
-  origin: 'http://localhost:5173',    // frontend URL
+  origin: 'https://api-health-middleware.netlify.app',    // frontend URL
   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true
 })); 
 
 app.use(
-healthMonitor({apiKey:`${process.env.API_MONITORING_KEY}`})
+ apiHealth({
+    apiKey: "61cfa99c0d184e3868f3e678dfda2370ddb936a7bebdd31d4bc03f7952eab4d6" 
+  })
 );
 
 app.use(express.json()); 
